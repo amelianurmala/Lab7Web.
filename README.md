@@ -1,1 +1,403 @@
 # Lab7Web.
+
+# Laporan Praktikum Pemrograman Web 2
+## Praktikum 1: PHP Framework (CodeIgniter 4)
+
+*Nama: Amelia Nurmala Dewi*
+
+*Kelas: I241B*
+
+*NIM: 312410199*
+
+---
+
+## Langkah-Langkah Praktikum
+
+### Persiapan - Konfigurasi PHP dan Instalasi CodeIgniter 4
+
+Sebelum memulai, dilakukan konfigurasi pada webserver XAMPP dengan mengaktifkan beberapa ekstensi PHP yang dibutuhkan oleh CodeIgniter 4, yaitu:
+- **php-json** → untuk bekerja dengan JSON
+- **php-mysqlnd** → native driver untuk MySQL
+- **php-xml** → untuk bekerja dengan XML
+- **php-intl** → untuk membuat aplikasi multibahasa
+- **libcurl** → opsional, untuk penggunaan Curl
+
+Untuk mengaktifkan ekstensi tersebut, buka **XAMPP Control Panel → Apache → Config → PHP.ini**, kemudian hilangkan tanda titik koma (`;`) di depan ekstensi yang akan diaktifkan, lalu simpan dan restart Apache.
+
+Setelah konfigurasi selesai, CodeIgniter 4 diinstal secara manual dengan cara:
+1. Unduh CodeIgniter dari https://codeigniter.com/download
+2. Ekstrak file zip ke direktori `htdocs/lab11_ci`
+3. Ubah nama folder hasil ekstrak menjadi `ci4`
+4. Buka browser dan akses `http://localhost/lab11_ci/ci4/public/`
+
+---
+
+### Langkah 1 - Instalasi Berhasil, Halaman Welcome CodeIgniter 4 Tampil
+
+<img width="1366" height="768" alt="Screenshot (1751)" src="https://github.com/user-attachments/assets/7eb3a7a9-ae0e-405e-8bcf-e1dd1bf4ad0b" />
+
+Setelah instalasi selesai dan Apache dijalankan, browser diarahkan ke `http://localhost/lab11_ci/ci4/public/`. Halaman default CodeIgniter 4 berhasil tampil dengan judul **"Welcome to CodeIgniter 4.7.0"** beserta keterangan bahwa:
+- View utama berada di `app/Views/welcome_message.php`
+- Controller utama berada di `app/Controllers/Home.php`
+
+Tampilnya halaman ini membuktikan bahwa instalasi CodeIgniter 4 telah berhasil dilakukan.
+
+---
+
+### Langkah 2 - Menjalankan CLI (Command Line Interface)
+
+<img width="1366" height="768" alt="Screenshot (1755)" src="https://github.com/user-attachments/assets/7ce01d22-957e-4363-a654-1929981fbccf" />
+
+CodeIgniter 4 menyediakan tools CLI bernama **Spark** untuk mempermudah proses development. Untuk mengaksesnya, buka terminal XAMPP Shell dan arahkan ke direktori project:
+
+```bash
+cd htdocs\lab11_ci\ci4
+php spark
+```
+
+Output yang muncul menampilkan daftar perintah yang tersedia, dikelompokkan berdasarkan kategori seperti **Cache**, **Generators** (make:controller, make:model, dll.), **Database**, **Housekeeping**, dan lain-lain. Perintah-perintah ini sangat berguna untuk mempercepat proses pengembangan aplikasi.
+
+---
+
+### Langkah 3 - Mengaktifkan Mode Debugging (Muncul Error Whoops!)
+
+<img width="1365" height="714" alt="Screenshot 2026-03-01 061016" src="https://github.com/user-attachments/assets/c520912c-3501-4a16-b79e-8c7c509873c4" />
+
+Secara default, mode debugging pada CodeIgniter 4 belum aktif. Ketika terjadi error pada aplikasi, yang tampil hanyalah halaman **"Whoops! We seem to have hit a snag. Please try again later..."** tanpa informasi detail tentang error yang terjadi.
+
+Untuk mengaktifkan mode debugging, ubah nama file `env` menjadi `.env` di root direktori project, kemudian buka file tersebut dan ubah nilai variabel berikut:
+
+```
+CI_ENVIRONMENT = development
+```
+
+Dengan mengaktifkan mode development, detail error akan ditampilkan secara lengkap sehingga memudahkan proses debugging.
+
+---
+
+### Langkah 4 - ParseError Terdeteksi Setelah Mode Debugging Aktif
+
+<img width="1365" height="719" alt="Screenshot 2026-03-01 062120" src="https://github.com/user-attachments/assets/3511cf87-a4b8-4d03-aec9-265830fa67e1" />
+
+Setelah mode development diaktifkan, detail error mulai terlihat. Error yang muncul adalah:
+
+```
+ParseError
+syntax error, unexpected token "}", expecting ";"
+APPPATH\Controllers\Home.php at line 10
+```
+
+Error ini terjadi karena pada baris 9 file `app/Controllers/Home.php`, statement `return view('welcome_message')` tidak diakhiri dengan tanda titik koma (`;`). Kode yang salah:
+
+```php
+public function index()
+{
+    return view('welcome_message')  // ← Kurang titik koma!
+}
+```
+
+Perbaikan dilakukan dengan menambahkan `;` di akhir baris tersebut:
+
+```php
+public function index()
+{
+    return view('welcome_message');  // ← Sudah benar
+}
+```
+
+---
+
+### Langkah 5 - Membuat Route Baru dan Mengecek dengan Spark Routes
+
+<img width="1365" height="718" alt="Screenshot 2026-03-01 064700" src="https://github.com/user-attachments/assets/c33d3112-4a60-43b3-bb76-0dd46b80c99a" />
+
+Setelah error diperbaiki, langkah selanjutnya adalah menambahkan route baru untuk setiap halaman pada file `app/Config/Routes.php`:
+
+```php
+$routes->get('/about', 'Page::about');
+$routes->get('/contact', 'Page::contact');
+$routes->get('/faqs', 'Page::faqs');
+```
+
+Untuk memastikan route sudah terdaftar dengan benar, dijalankan perintah berikut di CLI:
+
+```bash
+php spark routes
+```
+
+Output menampilkan tabel daftar route yang sudah terdaftar:
+
+| Method | Route   | Handler                          |
+|--------|---------|----------------------------------|
+| GET    | /       | \App\Controllers\Home::index     |
+| GET    | about   | \App\Controllers\Page::about     |
+| GET    | contact | \App\Controllers\Page::contact   |
+| GET    | faqs    | \App\Controllers\Page::faqs      |
+
+Semua route berhasil terdaftar dengan benar.
+
+---
+
+### Langkah 6 - Error 404 Karena Controller Page Belum Dibuat
+
+<img width="1365" height="718" alt="Screenshot 2026-03-01 065150" src="https://github.com/user-attachments/assets/434db20c-e863-4e42-aafd-232992e4efca" />
+
+Ketika mencoba mengakses `http://localhost/lab11_ci/ci4/public/about`, muncul error **404 - Page Not Found** dengan pesan:
+
+```
+Controller or its method is not found: \App\Controllers\Page::about
+```
+
+Error ini terjadi karena meskipun route sudah didefinisikan, file **Controller Page** (`app/Controllers/Page.php`) belum dibuat. Route sudah mengarah ke controller yang belum ada, sehingga CodeIgniter mengembalikan error 404.
+
+---
+
+### Langkah 7 - Membuat Controller Page
+
+<img width="1365" height="716" alt="Screenshot 2026-03-01 065452" src="https://github.com/user-attachments/assets/b85090c9-721d-4f7d-ae9d-d40eeceb247d" />
+
+Untuk mengatasi error 404, dibuat file baru `app/Controllers/Page.php` dengan isi sebagai berikut:
+
+```php
+<?php
+
+namespace App\Controllers;
+
+class Page extends BaseController
+{
+    public function about()
+    {
+        echo "Ini halaman About";
+    }
+
+    public function contact()
+    {
+        echo "Ini halaman Contact";
+    }
+
+    public function faqs()
+    {
+        echo "Ini halaman FAQ";
+    }
+}
+```
+
+Setelah controller dibuat dan browser di-refresh, halaman about berhasil diakses dan menampilkan teks **"Ini halaman About"**. Ini membuktikan bahwa routing dan controller sudah terhubung dengan benar.
+
+---
+
+### Langkah 8 - Auto Routing (Halaman Term of Services)
+
+<img width="1365" height="719" alt="Screenshot 2026-03-01 070504" src="https://github.com/user-attachments/assets/8a274a9c-bfff-4c7a-b3d1-4e0fbba813b8" />
+
+CodeIgniter 4 memiliki fitur **Auto Routing** yang secara default sudah aktif. Fitur ini memungkinkan method pada controller diakses tanpa perlu mendefinisikan route secara manual di `Routes.php`.
+
+Ditambahkan method baru pada Controller Page:
+
+```php
+public function tos()
+{
+    echo "ini halaman Term of Services";
+}
+```
+
+Method `tos()` ini belum didaftarkan di `Routes.php`, namun tetap dapat diakses melalui URL: `http://localhost/lab11_ci/ci4/public/page/tos`
+
+Halaman berhasil tampil dengan teks **"ini halaman Term of Services"**, membuktikan fitur auto routing berfungsi dengan baik.
+
+---
+
+### Langkah 9 - Membuat View untuk Halaman About
+
+<img width="1365" height="718" alt="Screenshot 2026-03-01 071152" src="https://github.com/user-attachments/assets/edb87118-112f-43ea-a603-f41968610ee0" />
+
+Untuk membuat tampilan yang lebih baik, dibuat file view baru di `app/Views/about.php`:
+
+```php
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><?= $title; ?></title>
+</head>
+<body>
+    <h1><?= $title; ?></h1>
+    <hr>
+    <p><?= $content; ?></p>
+</body>
+</html>
+```
+
+Kemudian method `about()` pada Controller Page diubah untuk memanggil view tersebut:
+
+```php
+public function about()
+{
+    return view('about', [
+        'title'   => 'Halaman Abot',
+        'content' => 'Ini adalah halaman abaut yang menjelaskan tentang isi halaman ini.'
+    ]);
+}
+```
+
+Setelah di-refresh, halaman about menampilkan judul **"Halaman Abot"** dengan garis pemisah dan paragraf deskripsi di bawahnya.
+
+---
+
+### Langkah 10 - Membuat Layout dengan Template Header dan Footer
+
+<img width="1365" height="714" alt="Screenshot 2026-03-01 074404" src="https://github.com/user-attachments/assets/bc8b61a1-4263-4ad7-b7d8-66d9aaef79a9" />
+
+Untuk membuat tampilan yang konsisten di semua halaman, dibuat folder `template` di dalam `app/Views/`, kemudian dibuat dua file template:
+
+**File `app/Views/template/header.php`:**
+```php
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><?= $title; ?></title>
+    <link rel="stylesheet" href="<?= base_url('/style.css');?>">
+</head>
+<body>
+    <div id="container">
+        <header>
+            <h1>Layout Sederhana</h1>
+        </header>
+        <nav>
+            <a href="<?= base_url('/');?>" class="active">Home</a>
+            <a href="<?= base_url('/artikel');?>">Artikel</a>
+            <a href="<?= base_url('/about');?>">About</a>
+            <a href="<?= base_url('/contact');?>">Kontak</a>
+        </nav>
+        <section id="wrapper">
+            <section id="main">
+```
+
+**File `app/Views/template/footer.php`:**
+```php
+            </section>
+            <aside id="sidebar">
+                <div class="widget-box">
+                    <h3 class="title">Widget Header</h3>
+                    <ul>
+                        <li><a href="#">Widget Link</a></li>
+                        <li><a href="#">Widget Link</a></li>
+                    </ul>
+                </div>
+                <div class="widget-box">
+                    <h3 class="title">Widget Text</h3>
+                    <p>Vestibulum lorem elit, iaculis in nisl volutpat, malesuada
+                    tincidunt arcu. Proin in leo fringilla, vestibulum mi porta,
+                    faucibus felis. Integer pharetra est nunc, nec pretium nunc pretium ac.</p>
+                </div>
+            </aside>
+        </section>
+        <footer>
+            <p>&copy; 2021 - Universitas Pelita Bangsa</p>
+        </footer>
+    </div>
+</body>
+</html>
+```
+
+**File `app/Views/about.php` diubah menjadi:**
+```php
+<?= $this->include('template/header'); ?>
+<h1><?= $title; ?></h1>
+<hr>
+<p><?= $content; ?></p>
+<?= $this->include('template/footer'); ?>
+```
+
+Hasilnya halaman about kini memiliki struktur layout lengkap dengan header, navbar, sidebar, dan footer.
+
+---
+
+### Langkah 11 - Tampilan Final dengan CSS Styling
+
+<img width="1365" height="717" alt="Screenshot 2026-03-01 080932" src="https://github.com/user-attachments/assets/8e9867dc-33bb-4427-a9b9-13a6cc5ea91b" />
+<img width="1365" height="719" alt="Screenshot 2026-03-01 080909" src="https://github.com/user-attachments/assets/d1dea048-1537-4c90-a33d-3bd905b618ad" />
+<img width="1363" height="716" alt="Screenshot 2026-03-01 080948" src="https://github.com/user-attachments/assets/ec29d566-5d77-47a4-93f3-3d90fde05a06" />
+
+File CSS disalin dari praktikum sebelumnya (lab4_layout) ke direktori `public/style.css`. Setelah CSS diterapkan, tampilan halaman menjadi lebih profesional dengan desain yang lengkap:
+
+- **Header** → Judul "Layout Sederhana" dengan warna pink/magenta dan informasi nama mahasiswa
+- **Navbar** → Menu navigasi horizontal dengan background hitam dan aksen magenta
+- **Konten Utama** → Judul dan deskripsi halaman ditampilkan di area kiri
+- **Sidebar Kanan** → Widget Header dengan Widget Link dan Widget Text berisi lorem ipsum
+- **Footer** → Copyright "© 2021 - Universitas Pelita Bangsa" dengan background hitam
+
+---
+
+### Pertanyaan dan Tugas - Melengkapi Semua Menu Navigasi
+
+Sebagai penyelesaian tugas dari modul, dilengkapi kode program untuk semua menu navigasi pada Controller Page agar semua halaman tampil dengan layout yang sama.
+
+**File `app/Controllers/Page.php` (lengkap):**
+
+```php
+<?php
+
+namespace App\Controllers;
+
+class Page extends BaseController
+{
+    public function about()
+    {
+        return view('about', [
+            'title'   => 'Halaman Abot',
+            'content' => 'Ini adalah halaman abaut yang menjelaskan tentang isi halaman ini.'
+        ]);
+    }
+
+    public function contact()
+    {
+        return view('contact', [
+            'title'   => 'Contact',
+            'content' => 'Ini adalah halaman Contact.'
+        ]);
+    }
+
+    public function faqs()
+    {
+        return view('faqs', [
+            'title'   => 'FAQ',
+            'content' => 'Ini adalah halaman FAQ.'
+        ]);
+    }
+
+    public function tos()
+    {
+        return view('tos', [
+            'title'   => 'Term of Services',
+            'content' => 'Ini adalah halaman Term of Services.'
+        ]);
+    }
+}
+```
+
+Setiap view (contact.php, faqs.php, tos.php) menggunakan template yang sama seperti about.php:
+
+```php
+<?= $this->include('template/header'); ?>
+<h1><?= $title; ?></h1>
+<hr>
+<p><?= $content; ?></p>
+<?= $this->include('template/footer'); ?>
+```
+
+Dengan demikian, semua halaman pada navigasi (Home, Artikel, About, Kontak) berhasil menampilkan tampilan dengan **layout yang seragam dan konsisten**.
+
+---
+
+## Kesimpulan
+
+Dari praktikum ini dapat disimpulkan bahwa:
+1. **CodeIgniter 4** adalah framework PHP yang menggunakan konsep **MVC (Model-View-Controller)**
+2. **Routing** dikonfigurasi di `app/Config/Routes.php` untuk menghubungkan URL dengan Controller
+3. **Controller** bertugas menerima request dan mengirimkan data ke View
+4. **View** bertugas menampilkan data kepada pengguna dengan tampilan HTML
+5. **Template** (header & footer) digunakan untuk membuat tampilan yang konsisten di semua halaman
+6. Fitur **Auto Routing** memungkinkan method diakses tanpa mendefinisikan route secara manual
+7. Mode **development** pada file `.env` wajib diaktifkan agar error dapat terdeteksi dengan detail

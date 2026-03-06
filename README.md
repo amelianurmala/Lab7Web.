@@ -499,7 +499,7 @@ INSERT INTO artikel (judul, isi, slug) VALUES
 
 **Tampilan Daftar Artikel:**
 
-![Daftar Artikel](screenshot/daftar-artikel.png)
+<img width="1365" height="719" alt="Screenshot 2026-03-06 174051" src="https://github.com/user-attachments/assets/ca9e79b0-a8df-4751-a75e-d0eb38225992" />
 
 ---
 
@@ -528,7 +528,9 @@ $routes->get('/artikel/(:any)', 'Artikel::view/$1');
 
 **Tampilan Detail Artikel:**
 
-![Detail Artikel](screenshot/detail-artikel.png)
+<img width="1365" height="716" alt="Screenshot 2026-03-06 175400" src="https://github.com/user-attachments/assets/7f0ce693-f717-4469-93e9-0b3cfdbbacb0" />
+<img width="1365" height="717" alt="Screenshot 2026-03-06 175438" src="https://github.com/user-attachments/assets/3d1973cc-bc97-4a23-bf3a-c7858158f131" />
+
 
 ---
 
@@ -588,7 +590,7 @@ $routes->group('admin', function($routes) {
 
 **Tampilan Admin Index:**
 
-![Admin Index](screenshot/admin-index.png)
+<img width="1365" height="719" alt="Screenshot 2026-03-06 185512" src="https://github.com/user-attachments/assets/d916d0cb-c56e-408e-81f2-da45e2d15ec4" />
 
 ---
 
@@ -618,7 +620,8 @@ public function add()
 
 **Tampilan Tambah Artikel:**
 
-![Tambah Artikel](screenshot/tambah-artikel.png)
+<img width="1365" height="717" alt="Screenshot 2026-03-06 191558" src="https://github.com/user-attachments/assets/b9e3bb43-1f77-4cef-940c-75143c647962" />
+<img width="1365" height="717" alt="Screenshot 2026-03-06 191031" src="https://github.com/user-attachments/assets/82fae563-cd55-4e49-a408-a3064811c580" />
 
 ---
 
@@ -648,7 +651,7 @@ public function edit($id)
 
 **Tampilan Edit Artikel:**
 
-![Edit Artikel](screenshot/edit-artikel.png)
+<img width="1365" height="716" alt="Screenshot 2026-03-06 190719" src="https://github.com/user-attachments/assets/5da63764-2ed8-409b-80ad-8de69c080c49" />
 
 ---
 
@@ -669,20 +672,10 @@ Ketika tombol Hapus diklik, akan muncul konfirmasi sebelum data dihapus.
 
 **Tampilan Konfirmasi Hapus:**
 
-![Hapus Artikel](screenshot/hapus-artikel.png)
+<img width="1365" height="719" alt="Screenshot 2026-03-06 191104" src="https://github.com/user-attachments/assets/0bd09ca0-acc1-4316-946b-cb30cecbb446" />
 
 ---
 
-## Kesimpulan
+**Kesimpulan:**
 
-Pada praktikum ini telah berhasil dibuat aplikasi CRUD sederhana menggunakan Framework CodeIgniter 4 yang mencakup fitur menampilkan daftar artikel, melihat detail artikel, menambah, mengubah, dan menghapus data artikel melalui halaman admin.
-## Kesimpulan
-
-Dari praktikum ini dapat disimpulkan bahwa:
-1. **CodeIgniter 4** adalah framework PHP yang menggunakan konsep **MVC (Model-View-Controller)**
-2. **Routing** dikonfigurasi di `app/Config/Routes.php` untuk menghubungkan URL dengan Controller
-3. **Controller** bertugas menerima request dan mengirimkan data ke View
-4. **View** bertugas menampilkan data kepada pengguna dengan tampilan HTML
-5. **Template** (header & footer) digunakan untuk membuat tampilan yang konsisten di semua halaman
-6. Fitur **Auto Routing** memungkinkan method diakses tanpa mendefinisikan route secara manual
-7. Mode **development** pada file `.env` wajib diaktifkan agar error dapat terdeteksi dengan detail
+Pada praktikum ini telah berhasil dibuat aplikasi CRUD sederhana menggunakan Framework CodeIgniter 4 yang mencakup fitur menampilkan daftar artikel, melihat detail artikel, menambah, mengubah, dan menghapus data artikel melalui halaman admin. Dari praktikum ini dapat disimpulkan bahwa CodeIgniter 4 adalah framework PHP yang menggunakan konsep **MVC (Model-View-Controller)**, di mana **Routing** dikonfigurasi di `app/Config/Routes.php` untuk menghubungkan URL dengan Controller, **Controller** bertugas menerima request dan mengirimkan data ke View, serta **View** bertugas menampilkan data kepada pengguna dengan tampilan HTML. **Template** (header & footer) digunakan untuk membuat tampilan yang konsisten di semua halaman, fitur **Auto Routing** memungkinkan method diakses tanpa mendefinisikan route secara manual, dan mode **development** pada file `.env` wajib diaktifkan agar error dapat terdeteksi dengan detail.

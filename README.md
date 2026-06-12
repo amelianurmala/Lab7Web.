@@ -2158,9 +2158,7 @@ Buat file `assets/css/style.css` berisi styling untuk tampilan tabel, tombol, da
 3. Jalankan Apache di XAMPP
 4. Jalankan server CI4: `php spark serve`
 5. Buka browser: `http://localhost/lab8_vuejs`
-```
 
----
 
 # Praktikum 12 - VueJS Komponen dan Routing (Single Page Application)
 
@@ -2361,3 +2359,255 @@ Pengujian dilakukan dengan berpindah antar halaman (Beranda → Kelola Artikel �
 
 [https://github.com/amelianurmala/Lab7Web.](https://github.com/amelianurmala/Lab7Web.)  
 Branch: **master / main**
+
+---
+
+---
+
+## Praktikum 13 - VueJS Autentikasi dan Navigation Guards
+
+---
+
+## Tujuan
+1. Memahami konsep autentikasi pada aplikasi SPA berbasis VueJS
+2. Memahami dan mengimplementasikan Navigation Guards menggunakan `router.beforeEach`
+3. Mengintegrasikan proses login dengan backend CI4 melalui Axios HTTP Post
+4. Menerapkan proteksi rute pada halaman yang memerlukan autentikasi
+
+---
+
+## Langkah-Langkah Praktikum
+
+### 1. Buat Folder Api dan File Auth.php di CI4
+Buat folder `Api` di dalam `app/Controllers/`, lalu buat file `Auth.php` sebagai controller yang menangani proses login via API. Controller ini menerima username dan password, memverifikasi ke database menggunakan `UserModel`, lalu mengembalikan token jika berhasil.
+
+### 2. Tambah Route di Routes.php
+Menambahkan route untuk endpoint login:
+```php
+$routes->get('api/login', 'Api\Auth::login');
+$routes->post('api/login', 'Api\Auth::login');
+$routes->options('api/login', function() {
+    return service('response')
+        ->setHeader('Access-Control-Allow-Origin', '*')
+        ->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With')
+        ->setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+});
+```
+
+### 3. Buat File Login.js
+Membuat komponen form login di `assets/js/components/Login.js`. Form ini mengirimkan data username dan password ke API CI4 menggunakan Axios HTTP Post. Jika login berhasil, token dan status login disimpan ke `localStorage`, lalu pengguna diarahkan ke halaman Kelola Artikel.
+
+### 4. Edit app.js - Tambah Navigation Guards
+Menambahkan `router.beforeEach` untuk memproteksi rute yang memerlukan autentikasi:
+```javascript
+router.beforeEach((to, from, next) => {
+    const isAuthenticated = localStorage.getItem('isLoggedIn') === 'true';
+    if (to.matched.some(record => record.meta.requiresAuth) && !isAuthenticated) {
+        alert('Akses Ditolak! Anda harus login terlebih dahulu.');
+        next('/login');
+    } else {
+        next();
+    }
+});
+```
+Rute yang diproteksi ditandai dengan `meta: { requiresAuth: true }`, yaitu halaman `/artikel` dan `/about`.
+
+### 5. Edit index.html
+Menambahkan menu Login/Logout yang dinamis menggunakan `v-if` dan `v-else`:
+```html
+<router-link v-if="!isLoggedIn" to="/login">Login</router-link>
+<a v-else href="#" @click.prevent="logout">Logout</a>
+```
+
+### 6. Tambah CSS Login di style.css
+Menambahkan styling untuk tampilan form login agar rapi dan responsif.
+
+---
+
+## Analisis Alur Kerja
+
+### router.beforeEach
+`router.beforeEach` adalah Navigation Guard milik Vue Router yang berjalan **setiap kali pengguna berpindah halaman (rute)**. Cara kerjanya:
+1. Setiap kali ada perpindahan rute, fungsi ini dipanggil terlebih dahulu sebelum halaman ditampilkan
+2. Sistem mengecek apakah rute tujuan memiliki `meta: { requiresAuth: true }`
+3. Jika iya, sistem mengecek apakah `localStorage` menyimpan nilai `isLoggedIn = true`
+4. Jika belum login → tampilkan alert "Akses Ditolak" dan arahkan ke `/login`
+5. Jika sudah login → lanjutkan ke halaman tujuan dengan memanggil `next()`
+
+### Axios HTTP Post
+Axios digunakan untuk mengirim data login dari frontend VueJS ke backend CI4 secara asinkronus. Cara kerjanya:
+1. Pengguna mengisi form username dan password lalu klik tombol "Masuk Aplikasi"
+2. Axios mengirim HTTP POST request ke `http://localhost:8080/api/login` dengan body berisi `{ username, password }`
+3. Backend CI4 (Auth.php) menerima data, mencari user di database, dan memverifikasi password menggunakan `password_verify()`
+4. Jika cocok → CI4 mengembalikan response JSON berisi status 200 dan token
+5. Frontend menyimpan `isLoggedIn = true` dan token ke `localStorage`, lalu redirect ke halaman artikel
+6. Jika gagal → CI4 mengembalikan status 401, frontend menampilkan pesan error
+
+---
+
+## Pengujian Skenario Keamanan
+
+### Skenario A - Kondisi Terkunci (Belum Login)
+- Buka aplikasi dalam kondisi belum login / localStorage kosong
+- Klik menu "Kelola Artikel"
+- Sistem menampilkan alert **"Akses Ditolak! Anda harus login terlebih dahulu."**
+- Pengguna otomatis diarahkan ke halaman form Login
+- Navigation Guard berhasil memblokir akses
+
+### Skenario B - Kondisi Login Terautentikasi
+- Buka form login, masukkan `admin@email.com` dan password yang valid
+- Axios mengirim POST request ke API CI4
+- CI4 memverifikasi kredensial ke database
+- Login berhasil → pengguna masuk ke halaman Kelola Artikel
+- Menu navigasi berubah dari "Login" menjadi "Logout"
+- Autentikasi berhasil
+
+---
+
+## Screenshot
+
+### Skenario A - Alert Akses Ditolak
+<img width="1365" height="677" alt="Screenshot 2026-06-12 150352" src="https://github.com/user-attachments/assets/3942dda1-5996-4e03-aa61-23063feecd31" />
+
+### Halaman Form Login
+<img width="1365" height="680" alt="Screenshot 2026-06-12 150407" src="https://github.com/user-attachments/assets/be478e50-e07f-43fe-b277-e52ebdb63dd5" />
+
+### Skenario B - Berhasil Login
+<img width="1364" height="678" alt="Screenshot 2026-06-12 151014" src="https://github.com/user-attachments/assets/5de02d9c-9334-43dd-8f87-95000a24bb1d" />
+
+### Konfirmasi Logout
+<img width="1365" height="681" alt="Screenshot 2026-06-12 151107" src="https://github.com/user-attachments/assets/090698a7-5add-4411-be56-4c854459f2aa" />
+
+### Setelah Logout
+<img width="1363" height="673" alt="Screenshot 2026-06-12 151120" src="https://github.com/user-attachments/assets/34fb1f0b-ccf9-428f-ac38-ff996a04eafc" />
+
+---
+
+## Struktur File yang Ditambahkan/Diubah
+
+```
+lab11_ci/ci4/
+└── app/
+    ├── Controllers/
+    │   └── Api/
+    │       └── Auth.php          ← BARU
+    └── Config/
+        └── Routes.php            ← DIUBAH (tambah route api/login)
+
+lab8_vuejs/
+└── assets/
+    └── js/
+        ├── app.js                ← DIUBAH (tambah Navigation Guards)
+        └── components/
+            └── Login.js          ← BARU
+index.html                        ← DIUBAH (tambah menu Login/Logout)
+assets/css/style.css              ← DIUBAH (tambah CSS form login)
+```
+
+
+## Praktikum 14 - Keamanan API, Autentikasi Token, dan Axios Interceptors
+
+---
+
+## Langkah-Langkah Praktikum
+
+### TAHAP 1: Mengamankan Endpoint API (Backend CI4)
+
+#### Langkah 1.1 - Buat ApiAuthFilter.php
+Membuat file filter baru di `app/Filters/ApiAuthFilter.php` yang bertugas memeriksa apakah setiap request yang masuk ke server membawa token valid pada HTTP Header Authorization. Jika token tidak ditemukan atau tidak valid, server akan mengembalikan response error 401 Unauthorized.
+
+#### Langkah 1.2 - Daftarkan Filter di Filters.php
+Membuka file `app/Config/Filters.php` dan mendaftarkan filter baru dengan alias `apiauth`:
+```php
+'apiauth' => \App\Filters\ApiAuthFilter::class,
+```
+
+#### Langkah 1.3 - Terapkan Filter ke Routes.php
+Mengganti `$routes->resource('post')` dengan route yang dipisah, lalu menerapkan filter `apiauth` khusus pada method POST, PUT, dan DELETE agar tidak bisa diakses tanpa token:
+```php
+$routes->get('post', 'Post::index');
+$routes->get('post/(:segment)', 'Post::show/$1');
+$routes->post('post', 'Post::create', ['filter' => 'apiauth']);
+$routes->put('post/(:segment)', 'Post::update/$1', ['filter' => 'apiauth']);
+$routes->delete('post/(:segment)', 'Post::delete/$1', ['filter' => 'apiauth']);
+```
+
+### TAHAP 2: Implementasi Axios Interceptors (Frontend VueJS)
+
+#### Langkah 2.1 - Tambah Axios Interceptors di app.js
+Menambahkan konfigurasi Axios Interceptors di `assets/js/app.js` sebelum inisialisasi Vue. Interceptors ini secara otomatis menyuntikkan token dari localStorage ke HTTP Header Authorization pada setiap request yang keluar:
+```javascript
+axios.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem('userToken');
+        if (token) {
+            config.headers['Authorization'] = 'Bearer ' + token;
+        }
+        return config;
+    }
+);
+```
+Selain itu, response interceptor juga ditambahkan untuk menangkap error 401 secara global dan otomatis mengarahkan pengguna ke halaman login jika sesi berakhir.
+
+---
+
+## Pengujian
+
+### Skenario A - Simulasi Pembobolan via Postman (Tanpa Token)
+- Buka Postman, set method **POST** ke `http://localhost:8080/post`
+- Jangan isi header Authorization apapun
+- Klik Send
+- Server mengembalikan **401 Unauthorized** dengan pesan "Akses Ditolak. Token tidak ditemukan pada request!"
+- Server-Side Security berhasil memblokir akses ilegal
+
+### Skenario B - Manipulasi Data via Browser (Dengan Token)
+- Login di aplikasi SPA
+- Tambah/Edit/Hapus artikel
+- Buka F12 → tab Network → klik request `post` → tab Headers
+- Terlihat `Authorization: Bearer <token>` dikirim otomatis
+- Axios Interceptors berhasil menyuntikkan token secara otomatis
+
+---
+
+## Screenshot
+
+### Bukti 401 Unauthorized dari Postman
+<img width="1365" height="719" alt="Screenshot 2026-06-12 154804" src="https://github.com/user-attachments/assets/2f5f6f68-ad29-4528-9986-08b1576695dd" />
+
+### Bukti Authorization Bearer di Network Tab
+<img width="1362" height="681" alt="Screenshot 2026-06-12 155827" src="https://github.com/user-attachments/assets/b188c901-7e57-4f8a-a385-b92ade92391d" />
+
+---
+
+## Kesimpulan Analisis
+
+### Perbedaan Vue Router Navigation Guards vs CodeIgniter Filters
+
+| Aspek | Vue Router Navigation Guards | CodeIgniter Filters |
+|-------|------------------------------|---------------------|
+| **Sisi** | Client-Side (Browser) | Server-Side (Server) |
+| **Cara Kerja** | Mencegat perpindahan rute di browser sebelum halaman ditampilkan | Mencegat HTTP request yang masuk ke server sebelum diproses controller |
+| **Yang Diproteksi** | Tampilan halaman (UI/UX) | Endpoint API dan data di database |
+| **Bisa Dibypass?** | Ya, bisa dibypass dengan memanipulasi localStorage di browser | Tidak bisa dibypass karena validasi ada di server |
+| **Fungsi Utama** | Mencegah pengguna melihat halaman tertentu tanpa login | Mencegah akses langsung ke API tanpa token yang valid |
+
+**Kesimpulan:** Vue Router Navigation Guards hanya melindungi tampilan di sisi browser, sehingga masih bisa ditembus langsung melalui tools seperti Postman. Sedangkan CodeIgniter Filters melindungi data di sisi server, sehingga meskipun seseorang mencoba menembak endpoint API langsung tanpa melalui browser, server tetap menolak request tersebut dengan error 401. Keduanya bersifat saling melengkapi — Navigation Guards untuk keamanan UX, Filters untuk keamanan data.
+
+---
+
+## Struktur File yang Ditambahkan/Diubah
+
+```
+lab11_ci/ci4/
+└── app/
+    ├── Filters/
+    │   └── ApiAuthFilter.php     ← BARU
+    └── Config/
+        ├── Filters.php           ← DIUBAH (daftarkan apiauth)
+        └── Routes.php            ← DIUBAH (pisah resource post + tambah filter)
+
+lab8_vuejs/
+└── assets/
+    └── js/
+        └── app.js                ← DIUBAH (tambah Axios Interceptors)
+```

@@ -2339,13 +2339,13 @@ Tambahkan style navigasi di `assets/css/style.css`:
 ## Screenshot
 
 ### Halaman Beranda
-> Screenshot halaman Beranda (localhost/lab8_vuejs/#/)
+<img width="1363" height="679" alt="Screenshot 2026-06-12 133508" src="https://github.com/user-attachments/assets/3c4b1229-a679-4239-947f-3dc2df136893" />
 
 ### Halaman Kelola Artikel
-> Screenshot halaman Kelola Artikel dengan data artikel dari API
+<img width="1363" height="677" alt="Screenshot 2026-06-12 133523" src="https://github.com/user-attachments/assets/55505222-1ed9-4bc5-9b4b-d3377a42cf7c" />
 
 ### Halaman About
-> Screenshot halaman About dengan foto dan profil mahasiswa
+<img width="1361" height="679" alt="Screenshot 2026-06-12 135457" src="https://github.com/user-attachments/assets/97432d22-4aa5-41a4-9160-642e915dd25e" />
 
 ---
 

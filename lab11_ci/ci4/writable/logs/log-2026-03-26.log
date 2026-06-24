@@ -1,0 +1,95 @@
+CRITICAL - 2026-03-26 04:03:26 --> ErrorException: Declaration of App\Cells\ArtikelTerkini::render(?string $kategori = null) must be compatible with CodeIgniter\View\Cell::render(string $library, $params = null, int $ttl = 0, ?string $cacheName = null): string
+[Method: GET, Route: contact]
+in APPPATH\Cells\ArtikelTerkini.php on line 8.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2026-03-26 04:03:45 --> ErrorException: Declaration of App\Cells\ArtikelTerkini::render(?string $kategori = null) must be compatible with CodeIgniter\View\Cell::render(string $library, $params = null, int $ttl = 0, ?string $cacheName = null): string
+[Method: GET, Route: about]
+in APPPATH\Cells\ArtikelTerkini.php on line 8.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2026-03-26 04:03:48 --> ErrorException: Declaration of App\Cells\ArtikelTerkini::render(?string $kategori = null) must be compatible with CodeIgniter\View\Cell::render(string $library, $params = null, int $ttl = 0, ?string $cacheName = null): string
+[Method: GET, Route: contact]
+in APPPATH\Cells\ArtikelTerkini.php on line 8.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2026-03-26 04:03:51 --> ErrorException: Declaration of App\Cells\ArtikelTerkini::render(?string $kategori = null) must be compatible with CodeIgniter\View\Cell::render(string $library, $params = null, int $ttl = 0, ?string $cacheName = null): string
+[Method: GET, Route: /]
+in APPPATH\Cells\ArtikelTerkini.php on line 8.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2026-03-26 04:04:56 --> ErrorException: Declaration of App\Cells\ArtikelTerkini::render(string $library = '', ?array $params = null, int $ttl = 0, ?string $cacheName = null): string must be compatible with CodeIgniter\View\Cell::render(string $library, $params = null, int $ttl = 0, ?string $cacheName = null): string
+[Method: GET, Route: /]
+in APPPATH\Cells\ArtikelTerkini.php on line 8.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2026-03-26 04:04:58 --> ErrorException: Declaration of App\Cells\ArtikelTerkini::render(string $library = '', ?array $params = null, int $ttl = 0, ?string $cacheName = null): string must be compatible with CodeIgniter\View\Cell::render(string $library, $params = null, int $ttl = 0, ?string $cacheName = null): string
+[Method: GET, Route: /]
+in APPPATH\Cells\ArtikelTerkini.php on line 8.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2026-03-26 04:08:24 --> CodeIgniter\View\Exceptions\ViewException: App\Cells\ArtikelTerkini::render has no params.
+[Method: GET, Route: /]
+in SYSTEMPATH\View\Cell.php on line 277.
+ 1 SYSTEMPATH\View\Cell.php(277): CodeIgniter\View\Exceptions\ViewException::forMissingCellParameters('App\\Cells\\ArtikelTerkini', 'render')
+ 2 SYSTEMPATH\View\Cell.php(106): CodeIgniter\View\Cell->renderSimpleClass(Object(App\Cells\ArtikelTerkini), 'render', [...], 'App\\Cells\\ArtikelTerkini')
+ 3 SYSTEMPATH\Common.php(1266): CodeIgniter\View\Cell->render('App\\Cells\\ArtikelTerkini::render', [...], 0, 'AppCellsArtikelTerkinirendere9b9c12a3ca59f4231e83406bad3441e')
+ 4 APPPATH\Views\layout\main.php(30): view_cell('App\\Cells\\ArtikelTerkini::render', [...])
+ 5 SYSTEMPATH\View\View.php(238): include('C:\\TUGAS AMEL\\PHP MY ADMIN\\htdocs\\lab11_ci\\ci4\\app\\Views\\layout\\main.php')
+ 6 SYSTEMPATH\View\View.php(241): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 7 SYSTEMPATH\View\View.php(254): CodeIgniter\View\View->render('layout/main', [], true)
+ 8 SYSTEMPATH\Common.php(1250): CodeIgniter\View\View->render('home', [], true)
+ 9 APPPATH\Controllers\Home.php(13): view('home', [...])
+10 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\Home->index()
+11 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+12 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+13 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+14 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+15 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+16 SYSTEMPATH\rewrite.php(44): require_once('C:\\TUGAS AMEL\\PHP MY ADMIN\\htdocs\\lab11_ci\\ci4\\public\\index.php')
+CRITICAL - 2026-03-26 04:09:40 --> ErrorException: Declaration of App\Cells\ArtikelTerkini::render(?string $kategori = null) must be compatible with CodeIgniter\View\Cell::render(string $library, $params = null, int $ttl = 0, ?string $cacheName = null): string
+[Method: GET, Route: /]
+in APPPATH\Cells\ArtikelTerkini.php on line 8.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2026-03-26 04:10:38 --> ErrorException: Declaration of App\Cells\ArtikelTerkini::render() must be compatible with CodeIgniter\View\Cell::render(string $library, $params = null, int $ttl = 0, ?string $cacheName = null): string
+[Method: GET, Route: /]
+in APPPATH\Cells\ArtikelTerkini.php on line 8.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2026-03-26 04:10:39 --> ErrorException: Declaration of App\Cells\ArtikelTerkini::render() must be compatible with CodeIgniter\View\Cell::render(string $library, $params = null, int $ttl = 0, ?string $cacheName = null): string
+[Method: GET, Route: /]
+in APPPATH\Cells\ArtikelTerkini.php on line 8.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2026-03-26 04:11:43 --> ErrorException: Declaration of App\Cells\ArtikelTerkini::render() must be compatible with CodeIgniter\View\Cell::render(string $library, $params = null, int $ttl = 0, ?string $cacheName = null): string
+[Method: GET, Route: /]
+in APPPATH\Cells\ArtikelTerkini.php on line 8.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2026-03-26 04:11:45 --> ErrorException: Declaration of App\Cells\ArtikelTerkini::render() must be compatible with CodeIgniter\View\Cell::render(string $library, $params = null, int $ttl = 0, ?string $cacheName = null): string
+[Method: GET, Route: /]
+in APPPATH\Cells\ArtikelTerkini.php on line 8.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2026-03-26 04:11:46 --> ErrorException: Declaration of App\Cells\ArtikelTerkini::render() must be compatible with CodeIgniter\View\Cell::render(string $library, $params = null, int $ttl = 0, ?string $cacheName = null): string
+[Method: GET, Route: /]
+in APPPATH\Cells\ArtikelTerkini.php on line 8.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2026-03-26 04:11:46 --> ErrorException: Declaration of App\Cells\ArtikelTerkini::render() must be compatible with CodeIgniter\View\Cell::render(string $library, $params = null, int $ttl = 0, ?string $cacheName = null): string
+[Method: GET, Route: /]
+in APPPATH\Cells\ArtikelTerkini.php on line 8.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2026-03-26 04:11:47 --> ErrorException: Declaration of App\Cells\ArtikelTerkini::render() must be compatible with CodeIgniter\View\Cell::render(string $library, $params = null, int $ttl = 0, ?string $cacheName = null): string
+[Method: GET, Route: /]
+in APPPATH\Cells\ArtikelTerkini.php on line 8.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->shutdownHandler()
+CRITICAL - 2026-03-26 04:13:12 --> ArgumentCountError: Too few arguments to function CodeIgniter\View\Cell::__construct(), 0 passed in C:\TUGAS AMEL\PHP MY ADMIN\htdocs\lab11_ci\ci4\system\Config\Factories.php on line 153 and exactly 1 expected
+[Method: GET, Route: /]
+in SYSTEMPATH\View\Cell.php on line 62.
+ 1 SYSTEMPATH\Config\Factories.php(153): CodeIgniter\View\Cell->__construct()
+ 2 SYSTEMPATH\View\Cell.php(183): CodeIgniter\Config\Factories::__callStatic('cells', [])
+ 3 SYSTEMPATH\View\Cell.php(79): CodeIgniter\View\Cell->determineClass('App\\Cells\\ArtikelTerkini:renderByKategori')
+ 4 SYSTEMPATH\Common.php(1266): CodeIgniter\View\Cell->render('App\\Cells\\ArtikelTerkini::renderByKategori', [...], 0, null)
+ 5 APPPATH\Views\layout\main.php(30): view_cell('App\\Cells\\ArtikelTerkini::renderByKategori', [...])
+ 6 SYSTEMPATH\View\View.php(238): include('C:\\TUGAS AMEL\\PHP MY ADMIN\\htdocs\\lab11_ci\\ci4\\app\\Views\\layout\\main.php')
+ 7 SYSTEMPATH\View\View.php(241): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 8 SYSTEMPATH\View\View.php(254): CodeIgniter\View\View->render('layout/main', [], true)
+ 9 SYSTEMPATH\Common.php(1250): CodeIgniter\View\View->render('home', [], true)
+10 APPPATH\Controllers\Home.php(13): view('home', [...])
+11 SYSTEMPATH\CodeIgniter.php(951): App\Controllers\Home->index()
+12 SYSTEMPATH\CodeIgniter.php(497): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Home))
+13 SYSTEMPATH\CodeIgniter.php(340): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+14 SYSTEMPATH\Boot.php(417): CodeIgniter\CodeIgniter->run()
+15 SYSTEMPATH\Boot.php(68): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+16 FCPATH\index.php(59): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+17 SYSTEMPATH\rewrite.php(44): require_once('C:\\TUGAS AMEL\\PHP MY ADMIN\\htdocs\\lab11_ci\\ci4\\public\\index.php')
